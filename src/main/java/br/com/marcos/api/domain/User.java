@@ -8,6 +8,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "usuarios") // Renomeando a tabela para evitar conflitos
 public class User {
 
     @Id
@@ -17,6 +18,9 @@ public class User {
 
     @Column(unique = true)
     private String email;
-    private String senha;
+
+    // Renomeando a coluna 'senha' para evitar conflitos
+    @Column(name = "senha_usuario")
+    private String senha; // Coluna de senha renomeada para 'senha_usuario'
 
 }
