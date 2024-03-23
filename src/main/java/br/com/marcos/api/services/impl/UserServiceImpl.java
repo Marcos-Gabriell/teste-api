@@ -20,5 +20,4 @@ public class UserServiceImpl implements UserService {
         return obj.orElse(null);
     }
 
-    // Implemente outros métodos da interface UserService, se houver
 }
