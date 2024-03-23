@@ -1,4 +1,4 @@
-package br.com.marcos.api.domain;
+package br.com.marcos.api.domain.dto;
 
 import lombok.*;
 
@@ -7,19 +7,11 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "usuarios")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-
-    @Column(unique = true)
     private String email;
-
-    @Column(name = "senha_usuario")
     private String senha;
 
 }
