@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserDTO {
 
     private Integer id;
     private String name;
