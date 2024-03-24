@@ -7,6 +7,7 @@ import br.com.marcos.api.services.exeptions.ObjectFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,4 +22,7 @@ public class UserServiceImpl implements UserService {
         return obj.orElseThrow(() -> new ObjectFoundException("Objeto não encontrado! "));
     }
 
+    public List<User> findAll() {
+        return repository.findAll();
+    }
 }
