@@ -19,7 +19,6 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @Column(name = "senha_usuario")
-    private String senha;
+    private String password;
 
 }
