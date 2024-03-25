@@ -3,6 +3,7 @@ package br.com.marcos.api.services.impl;
 import br.com.marcos.api.domain.User;
 import br.com.marcos.api.domain.dto.UserDTO;
 import br.com.marcos.api.repositories.UserRepository;
+import br.com.marcos.api.services.exeptions.DataIntegratyViolationException;
 import br.com.marcos.api.services.exeptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,8 +29,8 @@ class UserServiceImplTest {
 
     private static final Integer ID      = 1;
     private static final Integer INDEX   = 0;
-    private static final String NAME     = "Valdir";
-    private static final String EMAIL    = "valdir@mail.com";
+    private static final String NAME     = "Marcos";
+    private static final String EMAIL    = "marcos@mail.com";
     private static final String PASSWORD = "123";
 
     private static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
@@ -112,6 +113,20 @@ class UserServiceImplTest {
         assertEquals(EMAIL, response.getEmail());
         assertEquals(PASSWORD, response.getPassword());
     }
+
+    @Test
+    void whenCreateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try{
+            optionalUser.get().setId(2);
+            service.create(userDTO);
+        } catch (Exception ex) {
+            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals(E_MAIL_JA_CADASTRADO_NO_SISTEMA, ex.getMessage());
+        }
+    }
+
 
     @Test
     void update() {
