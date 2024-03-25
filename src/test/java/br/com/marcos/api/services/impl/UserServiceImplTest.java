@@ -3,6 +3,7 @@ package br.com.marcos.api.services.impl;
 import br.com.marcos.api.domain.User;
 import br.com.marcos.api.domain.dto.UserDTO;
 import br.com.marcos.api.repositories.UserRepository;
+import br.com.marcos.api.services.exeptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,16 +17,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UserServiceImplTest {
 
     private static final Integer ID      = 1;
-    private static final String NAME     = "Marcos";
-    private static final String EMAIL    = "marcos@mail.com";
+    private static final Integer INDEX   = 0;
+    private static final String NAME     = "Valdir";
+    private static final String EMAIL    = "valdir@mail.com";
     private static final String PASSWORD = "123";
 
+    private static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
+    private static final String E_MAIL_JA_CADASTRADO_NO_SISTEMA = "E-mail já cadastrado no sistema";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -39,7 +46,7 @@ class UserServiceImplTest {
     private User user;
     private UserDTO userDTO;
     private Optional<User> optionalUser;
-    private
+
 
     @BeforeEach
     void setUp() {
@@ -49,7 +56,7 @@ class UserServiceImplTest {
 
     @Test
     void whenFindByIdThenReturnAnUserInstance() {
-        Mockito.when(repository.findById(Mockito.anyInt())).thenReturn(optionalUser);
+        when(repository.findById(anyInt())).thenReturn(optionalUser);
 
         User response = service.findById(ID);
 
@@ -61,6 +68,19 @@ class UserServiceImplTest {
         assertEquals(EMAIL, response.getEmail());
     }
 
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException() {
+
+        when(repository.findById(anyInt()))
+                .thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
+
+        try{
+            service.findById(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
+        }
+    }
 
     @Test
     void findAll() {
