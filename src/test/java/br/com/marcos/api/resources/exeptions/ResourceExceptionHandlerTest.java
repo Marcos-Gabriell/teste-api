@@ -1,5 +1,6 @@
 package br.com.marcos.api.resources.exeptions;
 
+import br.com.marcos.api.services.exeptions.DataIntegratyViolationException;
 import br.com.marcos.api.services.exeptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ class ResourceEcxeptionHandlerTest {
     private static final String E_MAIL_JA_CADASTRADO = "E-mail já cadastrado";
 
     @InjectMocks
-    private ResourceExceptionHandler ecxeptionHandler;
+    private ResourceEcxeptionHandler ecxeptionHandler;
 
     @BeforeEach
     void setUp() {
@@ -48,6 +49,17 @@ class ResourceEcxeptionHandlerTest {
 
     @Test
     void dataIntegrityViolationException() {
+        ResponseEntity<StandardError> response = ecxeptionHandler
+                .dataIntegrityViolationException(
+                        new DataIntegratyViolationException(E_MAIL_JA_CADASTRADO),
+                        new MockHttpServletRequest());
 
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(StandardError.class, response.getBody().getClass());
+        assertEquals(E_MAIL_JA_CADASTRADO, response.getBody().getError());
+        assertEquals(400, response.getBody().getStatus());
     }
 }
