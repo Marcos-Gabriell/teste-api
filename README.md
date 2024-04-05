@@ -5,7 +5,7 @@ Este projeto consiste na construção de uma aplicação Spring Boot utilizando 
 
 ## Ferramentas e Tecnologias Utilizadas
 
-- Spring Boot 2.x.x
+- Spring Boot 2.x
 - Java 17 LTS
 - JUnit 5
 - Mockito
