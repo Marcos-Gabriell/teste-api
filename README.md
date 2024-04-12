@@ -3,7 +3,6 @@
 
 
 
-
 Este projeto consiste na construção de uma aplicação Spring Boot utilizando Java 17 LTS. Serão implementados testes unitários nas classes de serviço e de recursos, garantindo uma cobertura de 100% do código.
 
 ## Ferramentas e Tecnologias Utilizadas
